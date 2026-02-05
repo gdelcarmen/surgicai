@@ -2,10 +2,13 @@
 
 import React from "react";
 import MegaMenu from "@/components/ui/mega-menu";
-import { Search, Droplet, GraduationCap, Monitor, ScanLine, Heart, ShieldCheck, Building2 } from "lucide-react";
+import { MobileMenu } from "@/components/ui/mobile-menu";
+import { Search, Droplet, GraduationCap, Monitor, ScanLine, Heart, ShieldCheck, Building2, Menu } from "lucide-react";
 import Image from "next/image";
 
 export function Navbar() {
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+
     const menuItems = [
         {
             id: 1,
@@ -87,10 +90,22 @@ export function Navbar() {
                     <MegaMenu items={menuItems} />
                 </div>
 
-                {/* Mobile Menu Placeholder (Hidden on desktop) */}
+                {/* Mobile Menu Trigger */}
                 <div className="md:hidden">
-                    {/* Add mobile menu trigger here if needed */}
+                    <button
+                        onClick={() => setIsMobileMenuOpen(true)}
+                        className="p-2 text-[var(--text-secondary)] hover:text-white transition-colors"
+                    >
+                        <Menu className="w-6 h-6" />
+                    </button>
                 </div>
+
+                {/* Mobile Menu Overlay */}
+                <MobileMenu
+                    isOpen={isMobileMenuOpen}
+                    onClose={() => setIsMobileMenuOpen(false)}
+                    menuItems={menuItems}
+                />
             </div>
         </nav>
     );

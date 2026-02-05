@@ -23,7 +23,7 @@ export default function Home() {
         <Navbar />
 
         {/* Section 2: Hero */}
-        <section className="relative h-screen w-full overflow-hidden flex flex-col items-center justify-center">
+        <section className="relative min-h-[100dvh] w-full overflow-hidden flex flex-col items-center justify-center">
           <div className="absolute inset-0 z-0 opacity-50">
             <ShaderAnimation />
           </div>
@@ -82,7 +82,7 @@ export default function Home() {
         <CompanyRoadmap />
 
         {/* Section 8: CTA */}
-        <section className="py-32 flex flex-col items-center justify-center text-center px-6 bg-[radial-gradient(circle_at_center,rgba(249,112,102,0.05),transparent_70%)]">
+        <section className="py-20 md:py-32 flex flex-col items-center justify-center text-center px-6 bg-[radial-gradient(circle_at_center,rgba(249,112,102,0.05),transparent_70%)]">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#e8eaf0]">
             Be the first at your program.
           </h2>

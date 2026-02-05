@@ -53,16 +53,20 @@ const accordionItems = [
 ];
 
 // --- Accordion Item Component ---
-const AccordionItem = ({ item, isActive, onMouseEnter }: any) => {
+const AccordionItem = ({ item, isActive, onMouseEnter, onClick, isMobile }: any) => {
   return (
     <div
       className={`
-        relative h-[500px] rounded-2xl overflow-hidden cursor-pointer
+        relative rounded-2xl overflow-hidden cursor-pointer
         transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]
         border border-[var(--border-color)]
-        ${isActive ? 'w-[600px] flex-grow' : 'w-[80px] hover:w-[100px]'}
+        ${isMobile
+          ? (isActive ? 'h-[500px] w-full' : 'h-[80px] w-full')
+          : (isActive ? 'w-[600px] flex-grow h-[500px]' : 'w-[80px] hover:w-[100px] h-[500px]')
+        }
       `}
-      onMouseEnter={onMouseEnter}
+      onMouseEnter={!isMobile ? onMouseEnter : undefined}
+      onClick={onClick}
       style={{ background: item.gradient }}
     >
       {/* Content Container - Only visible when active */}
@@ -89,7 +93,7 @@ const AccordionItem = ({ item, isActive, onMouseEnter }: any) => {
       <div
         className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${isActive ? 'opacity-0' : 'opacity-100'}`}
       >
-        <span className="transform -rotate-90 whitespace-nowrap text-lg font-medium text-[var(--text-secondary)] tracking-wider">
+        <span className={`whitespace-nowrap text-lg font-medium text-[var(--text-secondary)] tracking-wider ${isMobile ? '' : 'transform -rotate-90'}`}>
           {item.title}
         </span>
       </div>
@@ -101,6 +105,18 @@ const AccordionItem = ({ item, isActive, onMouseEnter }: any) => {
 // --- Main Export Component ---
 export function ProductAccordion() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+    };
+  }, []);
 
   return (
     <div className="w-full max-w-7xl mx-auto py-24 px-6" id="products">
@@ -113,13 +129,16 @@ export function ProductAccordion() {
         </p>
       </div>
 
-      <div className="flex flex-row gap-4 h-[500px]">
+      <div className="flex flex-col md:flex-row gap-4 h-auto md:h-[500px]">
         {accordionItems.map((item, index) => (
           <AccordionItem
             key={item.id}
             item={item}
             isActive={index === activeIndex}
             onMouseEnter={() => setActiveIndex(index)}
+            // On mobile, click should probably also toggle or set active
+            onClick={() => setActiveIndex(index)}
+            isMobile={isMobile}
           />
         ))}
       </div>

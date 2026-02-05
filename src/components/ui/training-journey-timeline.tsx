@@ -1,7 +1,7 @@
 'use client';
 import { ReactLenis } from 'lenis/react';
 import { useTransform, motion, useScroll, MotionValue } from 'motion/react';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 interface StageData {
     title: string;
@@ -140,9 +140,22 @@ export function TrainingJourneyTimeline() {
         }
     ];
 
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => {
+            window.removeEventListener("resize", checkMobile);
+        };
+    }, []);
+
     return (
-        <main ref={container} className="relative z-10 hidden md:block">
-            <section className="h-[40vh] w-full flex flex-col items-center justify-center text-center px-4">
+        <main ref={container} className="relative z-10 w-full overflow-hidden">
+            <section className="h-auto md:h-[40vh] w-full flex flex-col items-center justify-center text-center px-4 py-20 md:py-0">
                 <h2 className="text-3xl md:text-5xl font-bold text-[#e8eaf0] mb-6">Surgery is a cognitive discipline <br /> as much as a technical one.</h2>
                 <p className="text-lg text-[#9ba1b8] max-w-[700px]">Every stage of training demands different knowledge, different skills, and different support. No single tool covers the journey. An ecosystem does.</p>
 
@@ -156,9 +169,44 @@ export function TrainingJourneyTimeline() {
                 </div>
             </section>
 
-            <section className='text-white w-full'>
+            <section className='text-white w-full px-4 md:px-0 pb-20 md:pb-0'>
                 {stages.map((stage, i) => {
                     const targetScale = 1 - (stages.length - i) * 0.05;
+                    if (isMobile) {
+                        return (
+                            <div key={`p_${i}`} className="mb-8 last:mb-0">
+                                <div
+                                    className="flex flex-col relative w-full rounded-2xl p-6 border border-[var(--border-color)]"
+                                    style={{
+                                        backgroundColor: stage.color,
+                                        borderTop: stage.accent ? `4px solid ${stage.accent}` : '1px solid var(--border-color)',
+                                    }}
+                                >
+                                    <div className="flex justify-between items-start mb-6">
+                                        <span className="text-[var(--coral)] font-mono text-sm tracking-widest uppercase">{stage.label}</span>
+                                        <span className="text-[var(--text-dim)] text-xs font-mono">Stage 0{i + 1}</span>
+                                    </div>
+
+                                    <h2 className='text-2xl font-bold text-[#e8eaf0] mb-4 tracking-tight leading-tight'>
+                                        {stage.title}
+                                    </h2>
+                                    <p className='text-base text-[var(--text-secondary)] leading-relaxed mb-6'>
+                                        {stage.description}
+                                    </p>
+
+                                    <div className="border-t border-[rgba(255,255,255,0.05)] pt-4">
+                                        <div className="flex flex-wrap gap-2">
+                                            {stage.tools.map((t, idx) => (
+                                                <div key={idx} className="flex items-center gap-2 px-2 py-1 rounded bg-[#0a0c10] border border-[var(--border-color)]">
+                                                    <span className="text-xs text-[#e8eaf0] font-medium">{t.name}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    }
                     return (
                         <Card
                             key={`p_${i}`}
@@ -171,7 +219,7 @@ export function TrainingJourneyTimeline() {
                     );
                 })}
             </section>
-            <div className="h-[20vh]" />
+            {!isMobile && <div className="h-[20vh]" />}
         </main>
     );
 }
