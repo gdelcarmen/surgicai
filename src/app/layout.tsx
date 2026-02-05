@@ -19,6 +19,8 @@ export const metadata: Metadata = {
   description: "Tools for every stage of surgical training and practice. From clinical knowledge to simulation.",
   icons: {
     icon: "/icon-sai-dark.svg",
+    shortcut: "/icon-sai-dark.svg",
+    apple: "/icon-sai-dark.svg",
   },
 };
 
