@@ -1,0 +1,22 @@
+<svg viewBox="0 0 360 75" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff8a82"/><stop offset="100%" stop-color="#e5544a"/>
+    </linearGradient>
+  </defs>
+  <text x="50%" y="40" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="48" letter-spacing="-0.03em">
+    <tspan fill="#e8eaf0" font-weight="500">surgic</tspan><tspan fill="url(#g)" font-weight="700">AI</tspan>
+  </text>
+  <line x1="80" y1="56" x2="280" y2="56" stroke="#e8eaf0" stroke-width="0.8" opacity="0.2"/>
+  <g stroke-width="1.1" stroke-linecap="round">
+    <line x1="94"  y1="50" x2="100" y2="62" stroke="#ffa49e"/>
+    <line x1="116" y1="50" x2="122" y2="62" stroke="#ff9690"/>
+    <line x1="138" y1="50" x2="144" y2="62" stroke="#fc8880"/>
+    <line x1="160" y1="50" x2="166" y2="62" stroke="#f87a72"/>
+    <line x1="182" y1="50" x2="188" y2="62" stroke="#f26c64"/>
+    <line x1="204" y1="50" x2="210" y2="62" stroke="#ed5e56"/>
+    <line x1="226" y1="50" x2="232" y2="62" stroke="#e85248"/>
+    <line x1="248" y1="50" x2="254" y2="62" stroke="#e5494a"/>
+    <line x1="266" y1="50" x2="272" y2="62" stroke="#e04a42"/>
+  </g>
+</svg>

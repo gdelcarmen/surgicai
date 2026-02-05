@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-dm-sans);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+:root {
+  /* Brand Core */
+  --coral-light: #ffa49e;
+  --coral-bright: #ff8a82;
+  --coral: #f97066;
+  --coral-deep: #e5544a;
+  --coral-darkest: #c43d35;
+
+  /* Backgrounds */
+  --bg-primary: #0a0c10;
+  --bg-surface: #12151c;
+  --bg-elevated: #1a1e28;
+
+  /* UI Colors */
+  --border-color: #1e2330;
+  --border-hover: #2a3050;
+  
+  /* Text */
+  --text-primary: #e8eaf0;
+  --text-secondary: #9ba1b8;
+  --text-dim: #6b7394;
+  --text-muted: #444b66;
+
+  /* Semantic */
+  --success: #34d399;
+  --warning: #fbbf24;
+  --error: #f87171;
+  --info: #60a5fa;
+
+  /* Shadcn - Mapped to Brand (Dark Mode Default) */
+  --background: var(--bg-primary);
+  --foreground: var(--text-primary);
+  
+  --card: var(--bg-surface);
+  --card-foreground: var(--text-primary);
+  
+  --popover: var(--bg-elevated);
+  --popover-foreground: var(--text-primary);
+  
+  --primary: var(--coral);
+  --primary-foreground: #0a0c10;
+  
+  --secondary: var(--bg-elevated);
+  --secondary-foreground: var(--text-primary);
+  
+  --muted: var(--bg-surface);
+  --muted-foreground: var(--text-secondary);
+  
+  --accent: var(--bg-surface);
+  --accent-foreground: var(--text-primary);
+  
+  --destructive: var(--error);
+  --destructive-foreground: #ffffff;
+  
+  --border: var(--border-color);
+  --input: var(--bg-surface);
+  --ring: var(--coral);
+  
+  --radius: 0.625rem;
+}
+
+body {
+  @apply bg-[#0a0c10] text-[#e8eaf0] antialiased;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-hover);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-dim);
+}

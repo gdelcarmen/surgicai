@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>surgicAI — Brand Kit</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* === BRAND PALETTE === */
+    /* Primary */
+    --coral: #f97066;
+    --coral-bright: #ff8a82;
+    --coral-deep: #e5544a;
+    --coral-darkest: #c43d35;
+
+    /* Neutrals — Dark Mode */
+    --bg-primary: #0a0c10;
+    --bg-surface: #12151c;
+    --bg-elevated: #1a1e28;
+    --border: #1e2330;
+    --border-hover: #2a3050;
+
+    /* Neutrals — Light Mode */
+    --bg-light: #ffffff;
+    --bg-light-surface: #f5f6f8;
+    --bg-light-elevated: #ebedf2;
+    --border-light: #dfe1e8;
+
+    /* Text — Dark */
+    --text-primary: #e8eaf0;
+    --text-secondary: #9ba1b8;
+    --text-dim: #6b7394;
+    --text-muted: #444b66;
+
+    /* Text — Light */
+    --text-light-primary: #1a1c24;
+    --text-light-secondary: #4a4e5e;
+    --text-light-dim: #7a7f94;
+
+    /* Semantic */
+    --success: #34d399;
+    --warning: #fbbf24;
+    --error: #f87171;
+    --info: #60a5fa;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg-primary); color: var(--text-primary); font-family: 'DM Sans', sans-serif; }
+
+  .page-header {
+    padding: 3.5rem 2rem 2.5rem; text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .page-header h1 { font-size: 1.8rem; font-weight: 500; letter-spacing: -0.03em; margin-bottom: 0.5rem; }
+  .page-header p { color: var(--text-dim); font-size: 0.88rem; max-width: 560px; margin: 0 auto; line-height: 1.6; }
+
+  .section { max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem 0; }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--text-dim);
+    letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem; border-bottom: 1px solid var(--border);
+  }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem; }
+  .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .card {
+    background: var(--bg-surface); border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden; transition: border-color 0.3s;
+  }
+  .card:hover { border-color: var(--border-hover); }
+  .card.full { grid-column: 1 / -1; }
+
+  .card .bar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.25rem 0; }
+  .card .bar .name { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; }
+  .tag { font-size: 0.65rem; padding: 0.2rem 0.55rem; border-radius: 12px; color: var(--coral); background: rgba(249,112,102,0.08); border: 1px solid rgba(249,112,102,0.15); }
+  .tag.dark { color: var(--text-dim); background: rgba(255,255,255,0.04); border-color: var(--border); }
+
+  .logo-area { padding: 3rem 2rem; display: flex; align-items: center; justify-content: center; min-height: 150px; }
+  .desc { padding: 1rem 1.25rem 1.25rem; border-top: 1px solid var(--border); font-size: 0.78rem; color: var(--text-dim); line-height: 1.55; }
+  .desc h4 { font-size: 0.88rem; color: var(--text-primary); font-weight: 600; margin-bottom: 0.3rem; }
+
+  .logo-text { font-family: 'DM Sans', sans-serif; }
+
+  /* Color swatches */
+  .swatch-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  .swatch {
+    flex: 1; min-width: 110px; border-radius: 12px; overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .swatch-color { height: 72px; }
+  .swatch-info { padding: 0.6rem 0.75rem; background: var(--bg-surface); }
+  .swatch-name { font-size: 0.72rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.15rem; }
+  .swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--text-dim); }
+
+  /* Animated suture */
+  .anim-container {
+    position: relative; overflow: hidden;
+    border-radius: 12px; background: var(--bg-primary);
+  }
+
+  @keyframes thread-pull {
+    0% { stroke-dashoffset: 600; }
+    100% { stroke-dashoffset: 0; }
+  }
+  @keyframes stitch-appear {
+    0% { opacity: 0; transform: scaleY(0); }
+    100% { opacity: 1; transform: scaleY(1); }
+  }
+  @keyframes infinite-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  @keyframes fade-pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+  }
+
+  .context-row { display: flex; gap: 1.5rem; margin-bottom: 2rem; }
+  .context-label { font-size: 0.65rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em; text-align: center; margin-top: 0.4rem; }
+
+  @media (max-width: 768px) {
+    .grid { grid-template-columns: 1fr; }
+    .grid-3 { grid-template-columns: 1fr; }
+    .card.full { grid-column: 1; }
+    .swatch-row { flex-direction: column; }
+    .context-row { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>surgicAI Brand Kit</h1>
+  <p>Logo system, color palette, usage guidelines, and animated loading elements. Everything needed to build the surgicAI visual identity.</p>
+</div>
+
+<!-- ============================================ -->
+<!-- 1. LOGO SYSTEM -->
+<!-- ============================================ -->
+<div class="section">
+  <div class="section-label">01 — Logo System</div>
+  <div class="grid">
+
+    <!-- PRIMARY: V1 with suture -->
+    <div class="card full">
+      <div class="bar">
+        <span class="name">Primary Logo — Dark</span>
+        <span class="tag">Hero / Landing / Pitch</span>
+      </div>
+      <div class="logo-area" style="padding: 4rem 2rem;">
+        <svg viewBox="0 0 360 75" width="360" height="75" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="primary-g" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ff8a82"/><stop offset="100%" stop-color="#e5544a"/>
+            </linearGradient>
+          </defs>
+          <text x="50%" y="40" text-anchor="middle" class="logo-text" font-size="48" letter-spacing="-0.03em">
+            <tspan fill="#e8eaf0" font-weight="500">surgic</tspan><tspan fill="url(#primary-g)" font-weight="700">AI</tspan>
+          </text>
+          <line x1="80" y1="56" x2="280" y2="56" stroke="#e8eaf0" stroke-width="0.8" opacity="0.2"/>
+          <g stroke-width="1.1" stroke-linecap="round">
+            <line x1="94"  y1="50" x2="100" y2="62" stroke="#ffa49e"/>
+            <line x1="116" y1="50" x2="122" y2="62" stroke="#ff9690"/>
+            <line x1="138" y1="50" x2="144" y2="62" stroke="#fc8880"/>
+            <line x1="160" y1="50" x2="166" y2="62" stroke="#f87a72"/>
+            <line x1="182" y1="50" x2="188" y2="62" stroke="#f26c64"/>
+            <line x1="204" y1="50" x2="210" y2="62" stroke="#ed5e56"/>
+            <line x1="226" y1="50" x2="232" y2="62" stroke="#e85248"/>
+            <line x1="248" y1="50" x2="254" y2="62" stroke="#e5494a"/>
+            <line x1="266" y1="50" x2="272" y2="62" stroke="#e04a42"/>
+          </g>
+        </svg>
+      </div>
+      <div class="desc">
+        <h4>When to use</h4>
+        Homepage hero, pitch decks, conference slides, splash screens, app store listings. Always on dark backgrounds. The suture element should only appear in this primary context.
+      </div>
+    </div>
+
+    <!-- SECONDARY: Bare wordmark — dark -->
+    <div class="card">
+      <div class="bar">
+        <span class="name">Wordmark — Dark</span>
+        <span class="tag dark">Default</span>
+      </div>
+      <div class="logo-area">
+        <svg viewBox="0 0 260 40" width="260" height="40" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="wm-dark" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ff8a82"/><stop offset="100%" stop-color="#e5544a"/>
+            </linearGradient>
+          </defs>
+          <text x="50%" y="30" text-anchor="middle" class="logo-text" font-size="34" letter-spacing="-0.03em">
+            <tspan fill="#e8eaf0" font-weight="500">surgic</tspan><tspan fill="url(#wm-dark)" font-weight="700">AI</tspan>
+          </text>
+        </svg>
+      </div>
+      <div class="desc">
+        <h4>When to use</h4>
+        Nav bars, headers, documentation, in-app branding, email signatures, footers. No suture — the gradient AI carries the identity alone.
+      </div>
+    </div>
+
+    <!-- SECONDARY: Bare wordmark — light -->
+    <div class="card">
+      <div class="bar">
+        <span class="name">Wordmark — Light</span>
+        <span class="tag dark">White / Light BG</span>
+      </div>
+      <div class="logo-area" style="background: #ffffff; border-radius: 0;">
+        <svg viewBox="0 0 260 40" width="260" height="40" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="wm-light" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#f97066"/><stop offset="100%" stop-color="#dc4a3f"/>
+            </linearGradient>
+          </defs>
+          <text x="50%" y="30" text-anchor="middle" class="logo-text" font-size="34" letter-spacing="-0.03em">
+            <tspan fill="#1a1c24" font-weight="500">surgic</tspan><tspan fill="url(#wm-light)" font-weight="700">AI</tspan>
+          </text>
+        </svg>
+      </div>
+      <div class="desc">
+        <h4>Light background rule</h4>
+        On white or light backgrounds: wordmark only, no suture. "surgic" shifts to near-black, gradient deepens slightly for contrast.
+      </div>
+    </div>
+
+    <!-- ICONS -->
+    <div class="card full">
+      <div class="bar">
+        <span class="name">Icons — SAI Shorthand</span>
+        <span class="tag dark">Favicon / App Icon / Avatar</span>
+      </div>
+      <div class="logo-area" style="gap: 2.5rem; flex-wrap: wrap;">
+        <div style="text-align:center;">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="16" fill="#0a0c10"/>
+            <defs><linearGradient id="ico-d" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff8a82"/><stop offset="100%" stop-color="#e5544a"/></linearGradient></defs>
+            <text x="50%" y="42" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="28" letter-spacing="-0.03em"><tspan fill="#e8eaf0" font-weight="500">S</tspan><tspan fill="url(#ico-d)" font-weight="700" font-size="19">AI</tspan></text>
+          </svg>
+          <div class="context-label" style="margin-top:0.5rem;">SAI Dark</div>
+        </div>
+        <div style="text-align:center;">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="16" fill="#ffffff" stroke="#e2e4ea" stroke-width="1"/>
+            <defs><linearGradient id="ico-l" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f97066"/><stop offset="100%" stop-color="#dc4a3f"/></linearGradient></defs>
+            <text x="50%" y="42" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="28" letter-spacing="-0.03em"><tspan fill="#1a1c24" font-weight="500">S</tspan><tspan fill="url(#ico-l)" font-weight="700" font-size="19">AI</tspan></text>
+          </svg>
+          <div class="context-label" style="margin-top:0.5rem;">SAI Light</div>
+        </div>
+        <div style="text-align:center;">
+          <svg width="48" height="48" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="16" fill="#0a0c10"/>
+            <defs><linearGradient id="ico-s" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff8a82"/><stop offset="100%" stop-color="#e5544a"/></linearGradient></defs>
+            <text x="50%" y="42" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="28" letter-spacing="-0.03em"><tspan fill="#e8eaf0" font-weight="500">S</tspan><tspan fill="url(#ico-s)" font-weight="700" font-size="19">AI</tspan></text>
+          </svg>
+          <div class="context-label" style="margin-top:0.5rem;">48px</div>
+        </div>
+        <div style="text-align:center;">
+          <svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="16" fill="#0a0c10"/>
+            <defs><linearGradient id="ico-t" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff8a82"/><stop offset="100%" stop-color="#e5544a"/></linearGradient></defs>
+            <text x="50%" y="42" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="28" letter-spacing="-0.03em"><tspan fill="#e8eaf0" font-weight="500">S</tspan><tspan fill="url(#ico-t)" font-weight="700" font-size="19">AI</tspan></text>
+          </svg>
+          <div class="context-label" style="margin-top:0.5rem;">32px</div>
+        </div>
+        <div style="text-align:center;">
+          <svg width="16" height="16" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="16" fill="#0a0c10"/>
+            <defs><linearGradient id="ico-f" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff8a82"/><stop offset="100%" stop-color="#e5544a"/></linearGradient></defs>
+            <text x="50%" y="42" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="28" letter-spacing="-0.03em"><tspan fill="#e8eaf0" font-weight="500">S</tspan><tspan fill="url(#ico-f)" font-weight="700" font-size="19">AI</tspan></text>
+          </svg>
+          <div class="context-label" style="margin-top:0.5rem;">Favicon</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- 2. COLOR PALETTE -->
+<!-- ============================================ -->
+<div class="section">
+  <div class="section-label">02 — Color Palette</div>
+
+  <!-- Primary coral -->
+  <div style="margin-bottom: 0.6rem;">
+    <span style="font-size: 0.78rem; color: var(--text-secondary); font-weight: 600;">Primary — Coral</span>
+  </div>
+  <div class="swatch-row">
+    <div class="swatch">
+      <div class="swatch-color" style="background: #ffa49e;"></div>
+      <div class="swatch-info"><div class="swatch-name">Coral Light</div><div class="swatch-hex">#ffa49e</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #ff8a82;"></div>
+      <div class="swatch-info"><div class="swatch-name">Coral Bright</div><div class="swatch-hex">#ff8a82</div></div>
+    </div>
+    <div class="swatch" style="border-color: var(--coral);">
+      <div class="swatch-color" style="background: #f97066;"></div>
+      <div class="swatch-info"><div class="swatch-name">Coral ★</div><div class="swatch-hex">#f97066</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #e5544a;"></div>
+      <div class="swatch-info"><div class="swatch-name">Coral Deep</div><div class="swatch-hex">#e5544a</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #c43d35;"></div>
+      <div class="swatch-info"><div class="swatch-name">Coral Darkest</div><div class="swatch-hex">#c43d35</div></div>
+    </div>
+  </div>
+
+  <!-- Neutrals dark -->
+  <div style="margin-bottom: 0.6rem; margin-top: 1.5rem;">
+    <span style="font-size: 0.78rem; color: var(--text-secondary); font-weight: 600;">Neutrals — Dark Mode</span>
+  </div>
+  <div class="swatch-row">
+    <div class="swatch">
+      <div class="swatch-color" style="background: #0a0c10;"></div>
+      <div class="swatch-info"><div class="swatch-name">BG Primary</div><div class="swatch-hex">#0a0c10</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #12151c;"></div>
+      <div class="swatch-info"><div class="swatch-name">Surface</div><div class="swatch-hex">#12151c</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #1a1e28;"></div>
+      <div class="swatch-info"><div class="swatch-name">Elevated</div><div class="swatch-hex">#1a1e28</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #1e2330;"></div>
+      <div class="swatch-info"><div class="swatch-name">Border</div><div class="swatch-hex">#1e2330</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #2a3050;"></div>
+      <div class="swatch-info"><div class="swatch-name">Border Hover</div><div class="swatch-hex">#2a3050</div></div>
+    </div>
+  </div>
+
+  <!-- Neutrals light -->
+  <div style="margin-bottom: 0.6rem; margin-top: 1.5rem;">
+    <span style="font-size: 0.78rem; color: var(--text-secondary); font-weight: 600;">Neutrals — Light Mode</span>
+  </div>
+  <div class="swatch-row">
+    <div class="swatch">
+      <div class="swatch-color" style="background: #ffffff; border-bottom: 1px solid #eee;"></div>
+      <div class="swatch-info"><div class="swatch-name">BG White</div><div class="swatch-hex">#ffffff</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #f5f6f8;"></div>
+      <div class="swatch-info"><div class="swatch-name">Surface</div><div class="swatch-hex">#f5f6f8</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #ebedf2;"></div>
+      <div class="swatch-info"><div class="swatch-name">Elevated</div><div class="swatch-hex">#ebedf2</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #dfe1e8;"></div>
+      <div class="swatch-info"><div class="swatch-name">Border</div><div class="swatch-hex">#dfe1e8</div></div>
+    </div>
+  </div>
+
+  <!-- Text -->
+  <div style="margin-bottom: 0.6rem; margin-top: 1.5rem;">
+    <span style="font-size: 0.78rem; color: var(--text-secondary); font-weight: 600;">Text</span>
+  </div>
+  <div class="swatch-row">
+    <div class="swatch">
+      <div class="swatch-color" style="background: #e8eaf0;"></div>
+      <div class="swatch-info"><div class="swatch-name">Primary (Dark)</div><div class="swatch-hex">#e8eaf0</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #9ba1b8;"></div>
+      <div class="swatch-info"><div class="swatch-name">Secondary</div><div class="swatch-hex">#9ba1b8</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #6b7394;"></div>
+      <div class="swatch-info"><div class="swatch-name">Dim</div><div class="swatch-hex">#6b7394</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #1a1c24;"></div>
+      <div class="swatch-info"><div class="swatch-name">Primary (Light)</div><div class="swatch-hex">#1a1c24</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #4a4e5e;"></div>
+      <div class="swatch-info"><div class="swatch-name">Secondary (Light)</div><div class="swatch-hex">#4a4e5e</div></div>
+    </div>
+  </div>
+
+  <!-- Semantic -->
+  <div style="margin-bottom: 0.6rem; margin-top: 1.5rem;">
+    <span style="font-size: 0.78rem; color: var(--text-secondary); font-weight: 600;">Semantic</span>
+  </div>
+  <div class="swatch-row" style="margin-bottom: 2rem;">
+    <div class="swatch">
+      <div class="swatch-color" style="background: #34d399;"></div>
+      <div class="swatch-info"><div class="swatch-name">Success</div><div class="swatch-hex">#34d399</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #fbbf24;"></div>
+      <div class="swatch-info"><div class="swatch-name">Warning</div><div class="swatch-hex">#fbbf24</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #f87171;"></div>
+      <div class="swatch-info"><div class="swatch-name">Error</div><div class="swatch-hex">#f87171</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #60a5fa;"></div>
+      <div class="swatch-info"><div class="swatch-name">Info</div><div class="swatch-hex">#60a5fa</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- 3. TYPOGRAPHY -->
+<!-- ============================================ -->
+<div class="section">
+  <div class="section-label">03 — Typography</div>
+  <div class="grid">
+    <div class="card">
+      <div class="bar"><span class="name">Primary — DM Sans</span></div>
+      <div class="logo-area" style="flex-direction: column; gap: 0.75rem; align-items: flex-start; padding: 2rem;">
+        <div style="font-size: 2rem; font-weight: 700; letter-spacing: -0.03em;">Heading Bold 700</div>
+        <div style="font-size: 1.4rem; font-weight: 500; letter-spacing: -0.02em;">Subheading Medium 500</div>
+        <div style="font-size: 1rem; font-weight: 400; color: var(--text-secondary);">Body text in regular 400 — clinical answers grounded in evidence, delivered in seconds.</div>
+        <div style="font-size: 0.85rem; font-weight: 300; color: var(--text-dim);">Caption light 300 — supplementary info and metadata</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="bar"><span class="name">Mono — JetBrains Mono</span></div>
+      <div class="logo-area" style="flex-direction: column; gap: 0.75rem; align-items: flex-start; padding: 2rem;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; font-weight: 500; color: var(--coral);">// Code and technical labels</div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; font-weight: 400; color: var(--text-secondary);">const result = await marcus.query();</div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 300; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase;">Section Labels &amp; Tags</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- 4. GRADIENT DEFINITIONS -->
+<!-- ============================================ -->
+<div class="section">
+  <div class="section-label">04 — Gradients</div>
+  <div class="grid grid-3">
+    <div class="card">
+      <div class="bar"><span class="name">AI Gradient</span><span class="tag">Primary</span></div>
+      <div style="height: 80px; background: linear-gradient(135deg, #ff8a82, #e5544a); border-radius: 0;"></div>
+      <div class="desc" style="font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;">
+        135deg · #ff8a82 → #e5544a
+      </div>
+    </div>
+    <div class="card">
+      <div class="bar"><span class="name">Suture Wound</span></div>
+      <div style="height: 80px; background: linear-gradient(90deg, transparent, rgba(255,164,158,0.25), rgba(224,74,66,0.25), transparent); border-radius: 0;"></div>
+      <div class="desc" style="font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;">
+        90deg · transparent → coral 25% → transparent
+      </div>
+    </div>
+    <div class="card">
+      <div class="bar"><span class="name">CTA / Hover</span></div>
+      <div style="height: 80px; background: linear-gradient(135deg, #f97066, #c43d35); border-radius: 0;"></div>
+      <div class="desc" style="font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;">
+        135deg · #f97066 → #c43d35
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- 5. ANIMATED SUTURE — LOADING -->
+<!-- ============================================ -->
+<div class="section">
+  <div class="section-label">05 — Animated Suture (Loading)</div>
+  <div class="grid">
+
+    <!-- A: Infinite scroll suture -->
+    <div class="card full">
+      <div class="bar">
+        <span class="name">Infinite Threading — Full Width</span>
+        <span class="tag">Loading / Splash</span>
+      </div>
+      <div class="logo-area" style="flex-direction: column; gap: 1.5rem; padding: 3rem 0; overflow: hidden;">
+        <!-- Wordmark above -->
+        <svg viewBox="0 0 260 40" width="220" height="34" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="anim-wm" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff8a82"/><stop offset="100%" stop-color="#e5544a"/></linearGradient></defs>
+          <text x="50%" y="30" text-anchor="middle" class="logo-text" font-size="34" letter-spacing="-0.03em"><tspan fill="#e8eaf0" font-weight="500">surgic</tspan><tspan fill="url(#anim-wm)" font-weight="700">AI</tspan></text>
+        </svg>
+        <!-- Infinite scrolling suture band -->
+        <div style="width: 100%; overflow: hidden; height: 24px; position: relative;">
+          <svg viewBox="0 0 800 24" style="width: 1600px; height: 24px; animation: infinite-scroll 6s linear infinite;" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="inf-g" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#ff8a82"/><stop offset="50%" stop-color="#e5544a"/><stop offset="100%" stop-color="#ff8a82"/>
+              </linearGradient>
+            </defs>
+            <!-- Wound line — two copies for seamless loop -->
+            <line x1="0" y1="12" x2="800" y2="12" stroke="#e8eaf0" stroke-width="0.6" opacity="0.15"/>
+            <!-- Stitches — 800px wide pattern, repeats -->
+            <g stroke="url(#inf-g)" stroke-width="1" stroke-linecap="round" opacity="0.6">
+              <line x1="10"  y1="5" x2="16"  y2="19"/>
+              <line x1="35"  y1="5" x2="41"  y2="19"/>
+              <line x1="60"  y1="5" x2="66"  y2="19"/>
+              <line x1="85"  y1="5" x2="91"  y2="19"/>
+              <line x1="110" y1="5" x2="116" y2="19"/>
+              <line x1="135" y1="5" x2="141" y2="19"/>
+              <line x1="160" y1="5" x2="166" y2="19"/>
+              <line x1="185" y1="5" x2="191" y2="19"/>
+              <line x1="210" y1="5" x2="216" y2="19"/>
+              <line x1="235" y1="5" x2="241" y2="19"/>
+              <line x1="260" y1="5" x2="266" y2="19"/>
+              <line x1="285" y1="5" x2="291" y2="19"/>
+              <line x1="310" y1="5" x2="316" y2="19"/>
+              <line x1="335" y1="5" x2="341" y2="19"/>
+              <line x1="360" y1="5" x2="366" y2="19"/>
+              <line x1="385" y1="5" x2="391" y2="19"/>
+              <!-- Second copy for seamless loop -->
+              <line x1="410" y1="5" x2="416" y2="19"/>
+              <line x1="435" y1="5" x2="441" y2="19"/>
+              <line x1="460" y1="5" x2="466" y2="19"/>
+              <line x1="485" y1="5" x2="491" y2="19"/>
+              <line x1="510" y1="5" x2="516" y2="19"/>
+              <line x1="535" y1="5" x2="541" y2="19"/>
+              <line x1="560" y1="5" x2="566" y2="19"/>
+              <line x1="585" y1="5" x2="591" y2="19"/>
+              <line x1="610" y1="5" x2="616" y2="19"/>
+              <line x1="635" y1="5" x2="641" y2="19"/>
+              <line x1="660" y1="5" x2="666" y2="19"/>
+              <line x1="685" y1="5" x2="691" y2="19"/>
+              <line x1="710" y1="5" x2="716" y2="19"/>
+              <line x1="735" y1="5" x2="741" y2="19"/>
+              <line x1="760" y1="5" x2="766" y2="19"/>
+              <line x1="785" y1="5" x2="791" y2="19"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div class="desc">
+        <h4>Infinite Threading</h4>
+        Suture stitches scroll infinitely left-to-right on a wound line beneath the wordmark. The gradient repeats seamlessly. Use for splash screens, loading states, page transitions.
+      </div>
+    </div>
+
+    <!-- B: Thread draw-on animation -->
+    <div class="card">
+      <div class="bar">
+        <span class="name">Thread Draw-On</span>
+        <span class="tag">Intro / Boot</span>
+      </div>
+      <div class="logo-area" style="flex-direction: column; gap: 0.5rem;">
+        <svg viewBox="0 0 300 65" width="300" height="65" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="draw-g" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ff8a82"/><stop offset="100%" stop-color="#e5544a"/>
+            </linearGradient>
+          </defs>
+          <text x="50%" y="34" text-anchor="middle" class="logo-text" font-size="38" letter-spacing="-0.03em">
+            <tspan fill="#e8eaf0" font-weight="500">surgic</tspan><tspan fill="url(#draw-g)" font-weight="700">AI</tspan>
+          </text>
+          <!-- Wound line draws on -->
+          <line x1="60" y1="48" x2="240" y2="48" stroke="#e8eaf0" stroke-width="0.7" opacity="0.2"
+                stroke-dasharray="180" stroke-dashoffset="180"
+                style="animation: thread-pull 1.2s ease-out 0.3s forwards;"/>
+          <!-- Stitches appear sequentially -->
+          <g stroke-width="1" stroke-linecap="round">
+            <line x1="72"  y1="43" x2="77"  y2="53" stroke="#ffa49e" opacity="0" style="animation: stitch-appear 0.2s ease-out 0.6s forwards; transform-origin: 74.5px 48px;"/>
+            <line x1="92"  y1="43" x2="97"  y2="53" stroke="#ff9690" opacity="0" style="animation: stitch-appear 0.2s ease-out 0.75s forwards; transform-origin: 94.5px 48px;"/>
+            <line x1="112" y1="43" x2="117" y2="53" stroke="#fc8880" opacity="0" style="animation: stitch-appear 0.2s ease-out 0.9s forwards; transform-origin: 114.5px 48px;"/>
+            <line x1="132" y1="43" x2="137" y2="53" stroke="#f87a72" opacity="0" style="animation: stitch-appear 0.2s ease-out 1.05s forwards; transform-origin: 134.5px 48px;"/>
+            <line x1="152" y1="43" x2="157" y2="53" stroke="#f26c64" opacity="0" style="animation: stitch-appear 0.2s ease-out 1.2s forwards; transform-origin: 154.5px 48px;"/>
+            <line x1="172" y1="43" x2="177" y2="53" stroke="#ed5e56" opacity="0" style="animation: stitch-appear 0.2s ease-out 1.35s forwards; transform-origin: 174.5px 48px;"/>
+            <line x1="192" y1="43" x2="197" y2="53" stroke="#e85248" opacity="0" style="animation: stitch-appear 0.2s ease-out 1.5s forwards; transform-origin: 194.5px 48px;"/>
+            <line x1="212" y1="43" x2="217" y2="53" stroke="#e5494a" opacity="0" style="animation: stitch-appear 0.2s ease-out 1.65s forwards; transform-origin: 214.5px 48px;"/>
+            <line x1="232" y1="43" x2="237" y2="53" stroke="#e04a42" opacity="0" style="animation: stitch-appear 0.2s ease-out 1.8s forwards; transform-origin: 234.5px 48px;"/>
+          </g>
+        </svg>
+        <div style="font-size: 0.65rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace;">(refreshes every 4s)</div>
+      </div>
+      <div class="desc">
+        <h4>Draw-On Sequence</h4>
+        Wound line draws itself, then stitches pop in one by one left-to-right. Perfect for initial app boot or first-time experience. Plays once — doesn't loop.
+      </div>
+    </div>
+
+    <!-- C: Pulsing suture -->
+    <div class="card">
+      <div class="bar">
+        <span class="name">Breathing Pulse</span>
+        <span class="tag dark">Subtle / Thinking</span>
+      </div>
+      <div class="logo-area" style="flex-direction: column; gap: 0.5rem;">
+        <svg viewBox="0 0 300 65" width="300" height="65" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="pulse-g" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ff8a82"/><stop offset="100%" stop-color="#e5544a"/>
+            </linearGradient>
+          </defs>
+          <text x="50%" y="34" text-anchor="middle" class="logo-text" font-size="38" letter-spacing="-0.03em">
+            <tspan fill="#e8eaf0" font-weight="500">surgic</tspan><tspan fill="url(#pulse-g)" font-weight="700">AI</tspan>
+          </text>
+          <line x1="60" y1="48" x2="240" y2="48" stroke="#e8eaf0" stroke-width="0.7" opacity="0.15"/>
+          <!-- Stitches pulse in/out with staggered timing -->
+          <g stroke-width="1" stroke-linecap="round">
+            <line x1="72"  y1="43" x2="77"  y2="53" stroke="#ffa49e" style="animation: fade-pulse 2.4s ease-in-out 0s infinite;"/>
+            <line x1="92"  y1="43" x2="97"  y2="53" stroke="#ff9690" style="animation: fade-pulse 2.4s ease-in-out 0.15s infinite;"/>
+            <line x1="112" y1="43" x2="117" y2="53" stroke="#fc8880" style="animation: fade-pulse 2.4s ease-in-out 0.3s infinite;"/>
+            <line x1="132" y1="43" x2="137" y2="53" stroke="#f87a72" style="animation: fade-pulse 2.4s ease-in-out 0.45s infinite;"/>
+            <line x1="152" y1="43" x2="157" y2="53" stroke="#f26c64" style="animation: fade-pulse 2.4s ease-in-out 0.6s infinite;"/>
+            <line x1="172" y1="43" x2="177" y2="53" stroke="#ed5e56" style="animation: fade-pulse 2.4s ease-in-out 0.75s infinite;"/>
+            <line x1="192" y1="43" x2="197" y2="53" stroke="#e85248" style="animation: fade-pulse 2.4s ease-in-out 0.9s infinite;"/>
+            <line x1="212" y1="43" x2="217" y2="53" stroke="#e5494a" style="animation: fade-pulse 2.4s ease-in-out 1.05s infinite;"/>
+            <line x1="232" y1="43" x2="237" y2="53" stroke="#e04a42" style="animation: fade-pulse 2.4s ease-in-out 1.2s infinite;"/>
+          </g>
+        </svg>
+      </div>
+      <div class="desc">
+        <h4>Breathing Pulse</h4>
+        Stitches fade in and out in a staggered wave — like a pulse moving through the suture. Subtle and ambient. Use for "AI is thinking" states, background processing, or ambient branding.
+      </div>
+    </div>
+
+    <!-- D: Compact loading bar -->
+    <div class="card full">
+      <div class="bar">
+        <span class="name">Suture Loading Bar — Compact</span>
+        <span class="tag">Inline Loading</span>
+      </div>
+      <div class="logo-area" style="flex-direction: column; gap: 1.5rem;">
+        <!-- Narrow version — just the suture as a progress indicator -->
+        <div style="text-align: center;">
+          <div style="font-size: 0.72rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; margin-bottom: 0.75rem; letter-spacing: 0.05em;">RETRIEVING SOURCES...</div>
+          <div style="overflow: hidden; width: 280px; height: 14px;">
+            <svg viewBox="0 0 560 14" style="width: 560px; height: 14px; animation: infinite-scroll 4s linear infinite;" xmlns="http://www.w3.org/2000/svg">
+              <line x1="0" y1="7" x2="560" y2="7" stroke="#e8eaf0" stroke-width="0.5" opacity="0.1"/>
+              <g stroke-width="0.9" stroke-linecap="round" opacity="0.5">
+                <line x1="5"   y1="2" x2="9"   y2="12" stroke="#ffa49e"/>
+                <line x1="22"  y1="2" x2="26"  y2="12" stroke="#ff9690"/>
+                <line x1="39"  y1="2" x2="43"  y2="12" stroke="#fc8880"/>
+                <line x1="56"  y1="2" x2="60"  y2="12" stroke="#f87a72"/>
+                <line x1="73"  y1="2" x2="77"  y2="12" stroke="#f26c64"/>
+                <line x1="90"  y1="2" x2="94"  y2="12" stroke="#ed5e56"/>
+                <line x1="107" y1="2" x2="111" y2="12" stroke="#e85248"/>
+                <line x1="124" y1="2" x2="128" y2="12" stroke="#e5494a"/>
+                <line x1="141" y1="2" x2="145" y2="12" stroke="#e04a42"/>
+                <line x1="158" y1="2" x2="162" y2="12" stroke="#e5544a"/>
+                <line x1="175" y1="2" x2="179" y2="12" stroke="#ed5e56"/>
+                <line x1="192" y1="2" x2="196" y2="12" stroke="#f26c64"/>
+                <line x1="209" y1="2" x2="213" y2="12" stroke="#f87a72"/>
+                <line x1="226" y1="2" x2="230" y2="12" stroke="#fc8880"/>
+                <line x1="243" y1="2" x2="247" y2="12" stroke="#ff9690"/>
+                <line x1="260" y1="2" x2="264" y2="12" stroke="#ffa49e"/>
+                <!-- repeat -->
+                <line x1="285" y1="2" x2="289" y2="12" stroke="#ffa49e"/>
+                <line x1="302" y1="2" x2="306" y2="12" stroke="#ff9690"/>
+                <line x1="319" y1="2" x2="323" y2="12" stroke="#fc8880"/>
+                <line x1="336" y1="2" x2="340" y2="12" stroke="#f87a72"/>
+                <line x1="353" y1="2" x2="357" y2="12" stroke="#f26c64"/>
+                <line x1="370" y1="2" x2="374" y2="12" stroke="#ed5e56"/>
+                <line x1="387" y1="2" x2="391" y2="12" stroke="#e85248"/>
+                <line x1="404" y1="2" x2="408" y2="12" stroke="#e5494a"/>
+                <line x1="421" y1="2" x2="425" y2="12" stroke="#e04a42"/>
+                <line x1="438" y1="2" x2="442" y2="12" stroke="#e5544a"/>
+                <line x1="455" y1="2" x2="459" y2="12" stroke="#ed5e56"/>
+                <line x1="472" y1="2" x2="476" y2="12" stroke="#f26c64"/>
+                <line x1="489" y1="2" x2="493" y2="12" stroke="#f87a72"/>
+                <line x1="506" y1="2" x2="510" y2="12" stroke="#fc8880"/>
+                <line x1="523" y1="2" x2="527" y2="12" stroke="#ff9690"/>
+                <line x1="540" y1="2" x2="544" y2="12" stroke="#ffa49e"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Even smaller — minimal -->
+        <div style="text-align: center;">
+          <div style="font-size: 0.68rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; margin-bottom: 0.5rem;">Synthesizing...</div>
+          <div style="overflow: hidden; width: 160px; height: 8px;">
+            <svg viewBox="0 0 320 8" style="width: 320px; height: 8px; animation: infinite-scroll 3s linear infinite;" xmlns="http://www.w3.org/2000/svg">
+              <line x1="0" y1="4" x2="320" y2="4" stroke="#e8eaf0" stroke-width="0.3" opacity="0.08"/>
+              <g stroke-width="0.6" stroke-linecap="round" opacity="0.4">
+                <line x1="3"   y1="1" x2="6"   y2="7" stroke="#ffa49e"/>
+                <line x1="13"  y1="1" x2="16"  y2="7" stroke="#fc8880"/>
+                <line x1="23"  y1="1" x2="26"  y2="7" stroke="#f87a72"/>
+                <line x1="33"  y1="1" x2="36"  y2="7" stroke="#f26c64"/>
+                <line x1="43"  y1="1" x2="46"  y2="7" stroke="#ed5e56"/>
+                <line x1="53"  y1="1" x2="56"  y2="7" stroke="#e85248"/>
+                <line x1="63"  y1="1" x2="66"  y2="7" stroke="#e5494a"/>
+                <line x1="73"  y1="1" x2="76"  y2="7" stroke="#e04a42"/>
+                <line x1="83"  y1="1" x2="86"  y2="7" stroke="#e5544a"/>
+                <line x1="93"  y1="1" x2="96"  y2="7" stroke="#ed5e56"/>
+                <line x1="103" y1="1" x2="106" y2="7" stroke="#f26c64"/>
+                <line x1="113" y1="1" x2="116" y2="7" stroke="#f87a72"/>
+                <line x1="123" y1="1" x2="126" y2="7" stroke="#fc8880"/>
+                <line x1="133" y1="1" x2="136" y2="7" stroke="#ff9690"/>
+                <line x1="143" y1="1" x2="146" y2="7" stroke="#ffa49e"/>
+                <line x1="153" y1="1" x2="156" y2="7" stroke="#ffa49e"/>
+                <!-- repeat -->
+                <line x1="163" y1="1" x2="166" y2="7" stroke="#ffa49e"/>
+                <line x1="173" y1="1" x2="176" y2="7" stroke="#fc8880"/>
+                <line x1="183" y1="1" x2="186" y2="7" stroke="#f87a72"/>
+                <line x1="193" y1="1" x2="196" y2="7" stroke="#f26c64"/>
+                <line x1="203" y1="1" x2="206" y2="7" stroke="#ed5e56"/>
+                <line x1="213" y1="1" x2="216" y2="7" stroke="#e85248"/>
+                <line x1="223" y1="1" x2="226" y2="7" stroke="#e5494a"/>
+                <line x1="233" y1="1" x2="236" y2="7" stroke="#e04a42"/>
+                <line x1="243" y1="1" x2="246" y2="7" stroke="#e5544a"/>
+                <line x1="253" y1="1" x2="256" y2="7" stroke="#ed5e56"/>
+                <line x1="263" y1="1" x2="266" y2="7" stroke="#f26c64"/>
+                <line x1="273" y1="1" x2="276" y2="7" stroke="#f87a72"/>
+                <line x1="283" y1="1" x2="286" y2="7" stroke="#fc8880"/>
+                <line x1="293" y1="1" x2="296" y2="7" stroke="#ff9690"/>
+                <line x1="303" y1="1" x2="306" y2="7" stroke="#ffa49e"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="desc">
+        <h4>Compact Loading</h4>
+        The suture pattern at two compact sizes — usable as inline loading indicators. "RETRIEVING SOURCES..." for MARCUS queries, "Synthesizing..." for AI processing. Replace any generic spinner.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- 6. USAGE RULES -->
+<!-- ============================================ -->
+<div class="section">
+  <div class="section-label">06 — Usage Rules</div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="bar"><span class="name">✓ Do</span></div>
+      <div class="desc" style="border-top: none; padding-top: 0.75rem;">
+        <div style="color: var(--text-primary); line-height: 2;">
+          Use primary logo (with suture) on dark backgrounds only<br>
+          Use bare wordmark on light backgrounds<br>
+          Maintain coral gradient on "AI" in all contexts<br>
+          Use SAI icons at 16px+ for favicons<br>
+          Use suture loading animation for AI processing states<br>
+          Keep minimum clear space of 1x height around logo<br>
+          Use DM Sans for all UI text, JetBrains Mono for code/labels
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="bar"><span class="name">✗ Don't</span></div>
+      <div class="desc" style="border-top: none; padding-top: 0.75rem;">
+        <div style="color: var(--text-primary); line-height: 2;">
+          Show suture on white or light backgrounds<br>
+          Add a dot between "surgic" and "AI"<br>
+          Use the logo in a single flat color<br>
+          Rotate, skew, or distort the wordmark<br>
+          Place on busy backgrounds or images<br>
+          Add effects (drop shadow, outer glow, bevel)<br>
+          Stack "surgic" over "AI" — always horizontal
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- 7. CSS VARIABLE EXPORT -->
+<!-- ============================================ -->
+<div class="section" style="padding-bottom: 3rem;">
+  <div class="section-label">07 — CSS Variables (Copy-Paste Ready)</div>
+  <div class="card full">
+    <div class="desc" style="border-top: none;">
+<pre style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; line-height: 1.8; color: var(--text-secondary); overflow-x: auto; white-space: pre; padding: 1rem 0;">
+<span style="color: var(--text-dim);">/* surgicAI Brand Palette */</span>
+<span style="color: var(--coral);">:root</span> {
+  <span style="color: var(--text-dim);">/* Primary */</span>
+  --coral-light:   <span style="color:#ffa49e">#ffa49e</span>;
+  --coral-bright:  <span style="color:#ff8a82">#ff8a82</span>;
+  --coral:         <span style="color:#f97066">#f97066</span>;
+  --coral-deep:    <span style="color:#e5544a">#e5544a</span>;
+  --coral-darkest: <span style="color:#c43d35">#c43d35</span>;
+
+  <span style="color: var(--text-dim);">/* Dark Mode */</span>
+  --bg-primary:    #0a0c10;
+  --bg-surface:    #12151c;
+  --bg-elevated:   #1a1e28;
+  --border:        #1e2330;
+  --border-hover:  #2a3050;
+
+  <span style="color: var(--text-dim);">/* Light Mode */</span>
+  --bg-white:      #ffffff;
+  --bg-light:      #f5f6f8;
+  --bg-light-alt:  #ebedf2;
+  --border-light:  #dfe1e8;
+
+  <span style="color: var(--text-dim);">/* Text — Dark */</span>
+  --text-primary:   #e8eaf0;
+  --text-secondary: #9ba1b8;
+  --text-dim:       #6b7394;
+  --text-muted:     #444b66;
+
+  <span style="color: var(--text-dim);">/* Text — Light */</span>
+  --text-light:     #1a1c24;
+  --text-light-sec: #4a4e5e;
+  --text-light-dim: #7a7f94;
+
+  <span style="color: var(--text-dim);">/* Semantic */</span>
+  --success: #34d399;
+  --warning: #fbbf24;
+  --error:   #f87171;
+  --info:    #60a5fa;
+
+  <span style="color: var(--text-dim);">/* Gradients */</span>
+  --gradient-ai:  linear-gradient(135deg, #ff8a82, #e5544a);
+  --gradient-cta: linear-gradient(135deg, #f97066, #c43d35);
+}
+</pre>
+    </div>
+  </div>
+</div>
+
+<!-- Refresh animation hack for draw-on -->
+<script>
+  // Re-trigger draw-on animation every 4s
+  setInterval(() => {
+    const svg = document.querySelector('[data-draw]');
+    if (svg) { const clone = svg.cloneNode(true); svg.parentNode.replaceChild(clone, svg); }
+  }, 4000);
+</script>
+
+</body>
+</html>
