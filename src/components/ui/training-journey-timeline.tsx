@@ -154,8 +154,8 @@ export function TrainingJourneyTimeline() {
     }, []);
 
     return (
-        <main ref={container} className="relative z-10 w-full overflow-hidden">
-            <section className="h-auto md:h-[40vh] w-full flex flex-col items-center justify-center text-center px-4 py-20 md:py-0">
+        <main ref={container} className="relative z-10 w-full overflow-visible pt-8 md:pt-16">
+            <section className="h-auto md:h-[40vh] w-full flex flex-col items-center justify-center text-center px-4 pt-20 pb-20 md:pt-8 md:pb-0">
                 <h2 className="text-3xl md:text-5xl font-bold text-[#e8eaf0] mb-6">Surgery is a cognitive discipline <br /> as much as a technical one.</h2>
                 <p className="text-lg text-[#9ba1b8] max-w-[700px]">Every stage of training demands different knowledge, different skills, and different support. No single tool covers the journey. An ecosystem does.</p>
 
