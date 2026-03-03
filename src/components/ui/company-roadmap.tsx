@@ -103,8 +103,7 @@ export function CompanyRoadmap() {
                 {/* Bottom Statement */}
                 <div className="mt-16 text-center">
                     <p className="text-[#6b7394] italic text-base">
-                        This isn't a product launch. It's a platform being built in public — <br className="hidden md:block" />
-                        by someone still in training, for everyone still in training.
+                        surgic.ai is being built step by step with feedback from residents and attendings.
                     </p>
                 </div>
 
