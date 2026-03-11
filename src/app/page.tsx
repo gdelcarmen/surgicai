@@ -1,3 +1,7 @@
+import type { Metadata } from "next";
+import Image from "next/image";
+
+import { JsonLd } from "@/components/json-ld";
 import { DotScreenShader } from "@/components/ui/dot-shader-background";
 import { Navbar } from "@/components/navbar";
 import { ShaderAnimation } from "@/components/ui/shader-animation";
@@ -8,11 +12,51 @@ import { FragmentedVsUnified } from "@/components/fragmented-vs-unified";
 import { TrainingJourneyTimeline } from "@/components/ui/training-journey-timeline";
 import { CompanyRoadmap } from "@/components/ui/company-roadmap";
 import { ScrollIndicator } from "@/components/ui/scroll-indicator";
-import { motion } from "motion/react";
+import { SiteFooter } from "@/components/site-footer";
+import { siteConfig } from "@/lib/site";
+
+export const metadata: Metadata = {
+  title: siteConfig.title,
+  description: siteConfig.description,
+  alternates: {
+    canonical: siteConfig.url,
+  },
+  openGraph: {
+    title: siteConfig.title,
+    description: siteConfig.description,
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.title,
+    description: siteConfig.description,
+  },
+};
 
 export default function Home() {
   return (
     <div className="relative w-full min-h-screen">
+      <JsonLd
+        data={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: siteConfig.name,
+            url: siteConfig.url,
+            email: siteConfig.email,
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: siteConfig.name,
+            url: siteConfig.url,
+            description: siteConfig.description,
+          },
+        ]}
+      />
+
       {/* Layer 0: Global Background */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <DotScreenShader />
@@ -33,7 +77,14 @@ export default function Home() {
           <div className="relative z-10 flex flex-col items-center gap-8 text-center px-4 mt-16">
             {/* Suture Logo */}
             <div className="w-[300px] md:w-[400px]">
-              <img src="/logo-primary-dark.svg" alt="surgicAI" className="w-full h-auto drop-shadow-2xl" />
+              <Image
+                src="/logo-primary-dark.svg"
+                alt="surgicAI"
+                width={400}
+                height={240}
+                className="w-full h-auto drop-shadow-2xl"
+                priority
+              />
             </div>
 
             <h1 className="text-xl md:text-2xl text-[var(--text-secondary)] font-medium max-w-2xl font-sans text-[#9ba1b8]">
@@ -107,25 +158,9 @@ export default function Home() {
         </section>
 
         {/* Section 9: Footer */}
-        <footer className="w-full border-t border-[var(--border-color)] py-12 bg-[#0a0c10]/50 backdrop-blur-sm relative z-20">
-          <div className="mx-auto max-w-7xl px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex flex-col gap-2">
-              <img src="/logo-wordmark-dark.svg" alt="surgicAI" className="h-6 opacity-80" />
-            </div>
-
-            <div className="flex gap-8 text-sm text-[var(--text-secondary)]">
-              <a href="#products" className="hover:text-white transition-colors">Products</a>
-              <a href="/about" className="hover:text-white transition-colors">About</a>
-              <a href="/security" className="hover:text-white transition-colors">Security</a>
-              <a href="/institutions" className="hover:text-white transition-colors">For Institutions</a>
-              <a href="mailto:contact@surgic.ai" className="hover:text-white transition-colors">Contact</a>
-            </div>
-
-            <div className="text-xs text-[var(--text-dim)]">
-              © 2026 surgic.ai. All rights reserved.
-            </div>
-          </div>
-        </footer>
+        <div className="relative z-20">
+          <SiteFooter />
+        </div>
 
       </div>
     </div>

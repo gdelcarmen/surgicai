@@ -4,10 +4,12 @@ import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronRight } from "lucide-react";
 
+import type { MegaMenuItem } from "@/components/ui/mega-menu";
+
 interface MobileMenuProps {
     isOpen: boolean;
     onClose: () => void;
-    menuItems: any[];
+    menuItems: MegaMenuItem[];
 }
 
 export function MobileMenu({ isOpen, onClose, menuItems }: MobileMenuProps) {
@@ -63,9 +65,9 @@ export function MobileMenu({ isOpen, onClose, menuItems }: MobileMenuProps) {
                                                 {item.label}
                                             </div>
                                             <div className="flex flex-col gap-4 pl-2">
-                                                {item.subMenus.map((subMenu: any, idx: number) => (
+                                                {item.subMenus.map((subMenu, idx: number) => (
                                                     <div key={idx} className="flex flex-col gap-4">
-                                                        {subMenu.items.map((subItem: any, subIdx: number) => {
+                                                        {subMenu.items.map((subItem, subIdx: number) => {
                                                             const Icon = subItem.icon;
                                                             return (
                                                                 <a

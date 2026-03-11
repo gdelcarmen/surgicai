@@ -1,6 +1,7 @@
 import * as React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, type LucideIcon } from "lucide-react";
+import Link from "next/link";
 
 export type MegaMenuItem = {
   id: number;
@@ -10,7 +11,7 @@ export type MegaMenuItem = {
     items: {
       label: string;
       description: string;
-      icon: any;
+      icon: LucideIcon;
       link?: string;
     }[];
   }[];
@@ -44,28 +45,47 @@ const MegaMenu = React.forwardRef<HTMLUListElement, MegaMenuProps>(
             onMouseEnter={() => handleHover(navItem.label)}
             onMouseLeave={() => handleHover(null)}
           >
-            <button
-              className="relative flex cursor-pointer items-center justify-center gap-1 py-1.5 px-4 text-sm text-white/50 transition-colors duration-300 hover:text-white group"
-              onMouseEnter={() => setIsHover(navItem.id)}
-              onMouseLeave={() => setIsHover(null)}
-            >
-              <span>{navItem.label}</span>
-              {navItem.subMenus && (
+            {navItem.subMenus ? (
+              <button
+                className="group relative flex cursor-pointer items-center justify-center gap-1 px-4 py-1.5 text-sm text-white/50 transition-colors duration-300 hover:text-white"
+                onMouseEnter={() => setIsHover(navItem.id)}
+                onMouseLeave={() => setIsHover(null)}
+              >
+                <span>{navItem.label}</span>
                 <ChevronDown
-                  className={`h-4 w-4 transition-transform duration-300 group-hover:rotate-180 ${openMenu === navItem.label ? "rotate-180" : ""
-                    }`}
+                  className={`h-4 w-4 transition-transform duration-300 group-hover:rotate-180 ${
+                    openMenu === navItem.label ? "rotate-180" : ""
+                  }`}
                 />
-              )}
-              {(isHover === navItem.id || openMenu === navItem.label) && (
-                <motion.div
-                  layoutId="hover-bg"
-                  className="absolute inset-0 size-full bg-white/10"
-                  style={{
-                    borderRadius: 99,
-                  }}
-                />
-              )}
-            </button>
+                {(isHover === navItem.id || openMenu === navItem.label) && (
+                  <motion.div
+                    layoutId="hover-bg"
+                    className="absolute inset-0 size-full bg-white/10"
+                    style={{
+                      borderRadius: 99,
+                    }}
+                  />
+                )}
+              </button>
+            ) : (
+              <Link
+                href={navItem.link || "/"}
+                className="group relative flex items-center justify-center gap-1 px-4 py-1.5 text-sm text-white/50 transition-colors duration-300 hover:text-white"
+                onMouseEnter={() => setIsHover(navItem.id)}
+                onMouseLeave={() => setIsHover(null)}
+              >
+                <span>{navItem.label}</span>
+                {isHover === navItem.id && (
+                  <motion.div
+                    layoutId="hover-bg"
+                    className="absolute inset-0 size-full bg-white/10"
+                    style={{
+                      borderRadius: 99,
+                    }}
+                  />
+                )}
+              </Link>
+            )}
 
             <AnimatePresence>
               {openMenu === navItem.label && navItem.subMenus && (

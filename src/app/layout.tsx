@@ -3,6 +3,7 @@ import { DM_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 // We'll implement a client wrapper for Lenis since it needs "use client"
 import { LenisProvider } from "@/components/lenis-provider";
+import { siteConfig } from "@/lib/site";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -15,8 +16,33 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "surgic.ai | The Surgical Ecosystem",
-  description: "Tools for every stage of surgical training and practice. From clinical knowledge to simulation.",
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: siteConfig.title,
+    template: "%s",
+  },
+  description: siteConfig.description,
+  applicationName: siteConfig.name,
+  keywords: [...siteConfig.keywords],
+  authors: [{ name: "Gabriel del Carmen, MD" }],
+  creator: "Gabriel del Carmen, MD",
+  publisher: siteConfig.name,
+  openGraph: {
+    title: siteConfig.title,
+    description: siteConfig.description,
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.title,
+    description: siteConfig.description,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
   icons: {
     icon: "/icon-sai-dark.svg",
     shortcut: "/icon-sai-dark.svg",
